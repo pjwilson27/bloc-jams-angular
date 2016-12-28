@@ -28,6 +28,11 @@
             
             SongPlayer.currentSong = song;
         };
+        
+        var stopSong = function(song){
+            currentBuzzObject.stop();
+            SongPlayer.currentSong.playing = null;
+        };
         /**
         *@function playSong
         *@desc Plays currently loaded/selected audio file as currentBuzzObject
@@ -80,14 +85,26 @@
             currentSongIndex--;
             
             if(currentSongIndex < 0) {
-                currentBuzzObject.stop();
-                SongPlayer.currentSong.playing = null;
+                stopSong(song);
             } else {
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
                 playSong(song);
             }
         };
+        
+        SongPlayer.next = function(){
+            var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+            currentSongIndex++;
+            
+            if(currentSongIndex <= 0){
+                stopSong(song);
+            } else {
+                var song = currentAlbum.songs[currentSongIndex];
+                setSong(song);
+                playSong(song);
+            }
+        }
         return SongPlayer;
     }
     
