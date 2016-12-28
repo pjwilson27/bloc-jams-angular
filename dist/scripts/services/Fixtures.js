@@ -36,12 +36,15 @@
         };
         
         Fixtures.getCollection = function(numberOfAlbums) {
-            var numberOfAlbums = [];
-            this.getAlbum.push(numberOfAlbums);
+            var myArray = [];
+            numberOfAlbums.push(angular.copy(albumPicasso));
+        }
+        
+        return myArray;
+                                
         };
         
         return Fixtures;
-    }
     
     angular
         .module('blocJams')
