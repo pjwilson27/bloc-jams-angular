@@ -26,13 +26,22 @@
                 preload: true
             });
             
+            currentBuzzObject.setVolume(SongPlayer.volume);
+            
             currentBuzzObject.bind('timeupdate', function(){
                 $rootScope.$apply(function(){
                     SongPlayer.currentTime = currentBuzzObject.getTime();
                 });
             });
             
+            currentBuzzObject.bind('volumechange', function() {
+                $rootScope.$apply(function() {
+                    SongPlayer.volume = currentBuzzObject.getVolume();
+                });
+            });
+            
             SongPlayer.currentSong = song;
+            
         };
         
         var stopSong = function(song){
@@ -66,6 +75,8 @@
         *@type{number}
         */
         SongPlayer.currentTime = null;
+        SongPlayer.volume = null;
+        
         SongPlayer.play = function(song){
             song = song || SongPlayer.currentSong;
             if(SongPlayer.currentSong !== song){
@@ -104,6 +115,7 @@
             }
         };
         
+        
         SongPlayer.next = function(){
             var currentSongIndex = getSongIndex(SongPlayer.currentSong);
             currentSongIndex++;
@@ -114,6 +126,12 @@
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
                 playSong(song);
+            }
+        }
+        
+        SongPlayer.setVolume = function(volume){
+            if(currentBuzzObject) {
+                currentBuzzObject.setVolume(volume);
             }
         }
         
